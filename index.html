@@ -7,6 +7,7 @@
     <title>EU Digital Transformation Intelligence</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -27,12 +28,82 @@
         h1 {
             margin-bottom: 8px;
             font-size: 32px;
+            color: #111827;
         }
 
         .subtitle {
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .description {
+            max-width: 900px;
             color: #6b7280;
-            margin-bottom: 30px;
-            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .metadata {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .metadata span {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 7px 12px;
+            font-size: 12px;
+            color: #4b5563;
+        }
+
+        .about {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+
+        .about summary {
+            cursor: pointer;
+            padding: 15px 18px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .about-content {
+            padding: 0 18px 18px 18px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .about-content p {
+            line-height: 1.6;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .methodology {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .methodology td {
+            padding: 8px 5px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        .methodology td:first-child {
+            font-weight: 600;
+            color: #374151;
+            width: 190px;
         }
 
         .filters {
@@ -144,19 +215,16 @@
             line-height: 1.6;
         }
 
-        .loading {
-            color: #6b7280;
-        }
-
-        .error {
-            color: #b91c1c;
-        }
-
         .footer {
             margin-top: 35px;
             text-align: center;
             color: #9ca3af;
             font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer a {
+            color: #6b7280;
         }
 
         @media (max-width: 800px) {
@@ -177,6 +245,10 @@
                 font-size: 26px;
             }
 
+            .subtitle {
+                font-size: 16px;
+            }
+
             .kpis {
                 grid-template-columns: 1fr;
             }
@@ -190,18 +262,128 @@
             }
 
         }
+
     </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
-    <h1>EU Digital Transformation Intelligence</h1>
+
+    <!-- HEADER -->
+
+    <h1>
+        EU Digital Transformation Intelligence
+    </h1>
 
     <div class="subtitle">
-        AI adoption across European countries
+        AI adoption across European enterprises, based on Eurostat data.
     </div>
+
+    <div class="description">
+
+        This dashboard analyses the share of enterprises using
+        AI technologies across the 27 EU Member States. The analysis
+        focuses on enterprises with 10 or more persons employed and
+        compares country-level AI adoption with the EU27 average
+        for the selected year.
+
+    </div>
+
+
+    <!-- DATA METADATA -->
+
+    <div class="metadata">
+
+        <span>
+            Source: Eurostat
+        </span>
+
+        <span>
+            Enterprise size: 10+ persons employed
+        </span>
+
+        <span>
+            Unit: % of enterprises
+        </span>
+
+        <span>
+            Coverage: EU27 + Member States
+        </span>
+
+        <span>
+            Years: 2021, 2023, 2024, 2025
+        </span>
+
+    </div>
+
+
+    <!-- METHODOLOGY -->
+
+    <details class="about">
+
+        <summary>
+            About this analysis
+        </summary>
+
+        <div class="about-content">
+
+            <p>
+                The analysis uses Eurostat's
+                <strong>ICT usage in enterprises</strong>
+                dataset to examine the adoption of AI technologies
+                across European enterprises.
+            </p>
+
+            <table class="methodology">
+
+                <tr>
+                    <td>Source</td>
+                    <td>Eurostat</td>
+                </tr>
+
+                <tr>
+                    <td>Dataset</td>
+                    <td>isoc_eb_ai</td>
+                </tr>
+
+                <tr>
+                    <td>Indicator</td>
+                    <td>E_AI_TANY — enterprises using AI technologies</td>
+                </tr>
+
+                <tr>
+                    <td>Enterprise size</td>
+                    <td>GE10 — enterprises with 10 or more persons employed</td>
+                </tr>
+
+                <tr>
+                    <td>Unit</td>
+                    <td>PC_ENT — percentage of enterprises</td>
+                </tr>
+
+                <tr>
+                    <td>Business sectors</td>
+                    <td>C10-S951_X_K</td>
+                </tr>
+
+                <tr>
+                    <td>Geographical coverage</td>
+                    <td>EU27 and the 27 EU Member States</td>
+                </tr>
+
+                <tr>
+                    <td>Years</td>
+                    <td>2021, 2023, 2024 and 2025</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </details>
 
 
     <!-- FILTERS -->
@@ -323,7 +505,9 @@
 
     <div class="insight">
 
-        <h2>Executive Insight</h2>
+        <h2>
+            Executive Insight
+        </h2>
 
         <p id="executiveInsight">
             Loading Eurostat data...
@@ -336,7 +520,9 @@
 
     <div class="question-box">
 
-        <h2>🤖 Ask the AI</h2>
+        <h2>
+            🤖 Ask the AI
+        </h2>
 
         <p>
             Ask a question about EU AI adoption,
@@ -367,16 +553,30 @@
     </div>
 
 
+    <!-- FOOTER -->
+
     <div class="footer">
 
-        Data source: Eurostat — ICT usage in enterprises
+        Data source:
+        <a
+            href="https://ec.europa.eu/eurostat/"
+            target="_blank"
+            rel="noopener noreferrer">
+            Eurostat
+        </a>
+        · ICT usage in enterprises
+
+        <br>
+
+        Analysis covers enterprises with 10 or more persons employed.
 
     </div>
+
 
 </div>
 
 
-<!-- LOAD EUROSTAT DATA -->
+<!-- EUROSTAT DATA LAYER -->
 
 <script src="data.js"></script>
 
@@ -467,7 +667,7 @@ function updateDashboard() {
 
 
     /*
-        Find selected country/year
+        Selected country and year
     */
 
     const countryData =
@@ -481,7 +681,7 @@ function updateDashboard() {
 
 
     /*
-        Find EU27/year
+        EU27 value for selected year
     */
 
     const euData =
@@ -495,7 +695,7 @@ function updateDashboard() {
 
 
     /*
-        Check that country data exists
+        Handle missing country data
     */
 
     if (
@@ -532,11 +732,12 @@ function updateDashboard() {
             "No data is available for the selected country and year.";
 
         return;
+
     }
 
 
     /*
-        Actual country adoption
+        Country adoption
     */
 
     const adoption =
@@ -544,7 +745,7 @@ function updateDashboard() {
 
 
     /*
-        Actual EU27 adoption
+        EU27 adoption
     */
 
     const euAdoption =
@@ -562,7 +763,7 @@ function updateDashboard() {
 
 
     /*
-        Rank countries for selected year
+        Calculate EU rank
     */
 
     const countriesForYear =
@@ -660,7 +861,11 @@ function formatPercentage(value) {
 
 
 /*
-    FORMAT PERCENTAGE-POINT DIFFERENCE
+    FORMAT GAP FOR KPI
+
+    Example:
+    +1.8 pp
+    -1.8 pp
 */
 
 function formatPercentagePoints(value) {
@@ -740,6 +945,17 @@ function updateExecutiveInsight(
         }
 
 
+        /*
+            IMPORTANT:
+            No + sign in the narrative.
+
+            KPI:
+            -1.8 pp
+
+            Narrative:
+            1.8 pp below
+        */
+
         text +=
 
             `This is ` +
@@ -770,7 +986,8 @@ function updateExecutiveInsight(
 
     document
         .getElementById("executiveInsight")
-        .innerText = text;
+        .innerText =
+        text;
 
 }
 
@@ -805,7 +1022,9 @@ document
 
 /*
     AI BUTTON
-    (AI connection will be added later)
+
+    The actual AI connection will be
+    added later.
 */
 
 function askAI() {
@@ -838,7 +1057,7 @@ function askAI() {
 
 
 /*
-    START
+    START DASHBOARD
 */
 
 initializeDashboard();
