@@ -206,6 +206,11 @@
             background: #1d4ed8;
         }
 
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
         .answer {
             margin-top: 20px;
             padding: 18px;
@@ -213,6 +218,7 @@
             border-radius: 8px;
             min-height: 60px;
             line-height: 1.6;
+            white-space: pre-wrap;
         }
 
         .footer {
@@ -516,7 +522,7 @@
     </div>
 
 
-    <!-- AI SECTION -->
+    <!-- ASK AI -->
 
     <div class="question-box">
 
@@ -530,17 +536,16 @@
             EU27 comparison.
         </p>
 
-
         <textarea
             id="question"
             placeholder="Example: Why is Romania below the EU average?"
         ></textarea>
 
-
-        <button onclick="askAI()">
+        <button
+            id="askButton"
+            onclick="askAI()">
             Ask AI
         </button>
-
 
         <div
             class="answer"
@@ -576,7 +581,7 @@
 </div>
 
 
-<!-- EUROSTAT DATA LAYER -->
+<!-- EUROSTAT DATA -->
 
 <script src="data.js"></script>
 
@@ -584,6 +589,14 @@
 <script>
 
 let eurostatData = [];
+
+
+/*
+    CLOUDFLARE WORKER
+*/
+
+const AI_WORKER_URL =
+    "https://eu-ai-intelligence.irina-patrascu21.workers.dev";
 
 
 /*
@@ -667,7 +680,7 @@ function updateDashboard() {
 
 
     /*
-        Selected country and year
+        Selected country/year
     */
 
     const countryData =
@@ -681,7 +694,7 @@ function updateDashboard() {
 
 
     /*
-        EU27 value for selected year
+        EU27/year
     */
 
     const euData =
@@ -695,7 +708,7 @@ function updateDashboard() {
 
 
     /*
-        Handle missing country data
+        Missing country data
     */
 
     if (
@@ -763,7 +776,7 @@ function updateDashboard() {
 
 
     /*
-        Calculate EU rank
+        EU rank
     */
 
     const countriesForYear =
@@ -800,7 +813,7 @@ function updateDashboard() {
 
 
     /*
-        Update KPI cards
+        Update KPIs
     */
 
     document
@@ -834,16 +847,14 @@ function updateDashboard() {
 
 
     /*
-        Update executive insight
+        Executive insight
     */
 
     updateExecutiveInsight(
-
         countryData,
         euAdoption,
         gap,
         rank
-
     );
 
 }
@@ -862,10 +873,6 @@ function formatPercentage(value) {
 
 /*
     FORMAT GAP FOR KPI
-
-    Example:
-    +1.8 pp
-    -1.8 pp
 */
 
 function formatPercentagePoints(value) {
@@ -946,14 +953,8 @@ function updateExecutiveInsight(
 
 
         /*
-            IMPORTANT:
-            No + sign in the narrative.
-
-            KPI:
-            -1.8 pp
-
-            Narrative:
-            1.8 pp below
+            The narrative intentionally
+            has no + or - sign.
         */
 
         text +=
@@ -993,6 +994,282 @@ function updateExecutiveInsight(
 
 
 /*
+    ASK AI
+*/
+
+async function askAI() {
+
+    const question =
+        document
+            .getElementById("question")
+            .value
+            .trim();
+
+
+    const answer =
+        document
+            .getElementById("answer");
+
+
+    const askButton =
+        document
+            .getElementById("askButton");
+
+
+    /*
+        Check question
+    */
+
+    if (!question) {
+
+        answer.innerText =
+            "Please enter a question.";
+
+        return;
+
+    }
+
+
+    /*
+        Current dashboard selection
+    */
+
+    const countryCode =
+        document
+            .getElementById("country")
+            .value;
+
+
+    const year =
+        Number(
+            document
+                .getElementById("year")
+                .value
+        );
+
+
+    /*
+        Find selected country/year
+    */
+
+    const countryData =
+        eurostatData.find(
+
+            item =>
+                item.countryCode === countryCode &&
+                item.year === year
+
+        );
+
+
+    /*
+        Find EU27/year
+    */
+
+    const euData =
+        eurostatData.find(
+
+            item =>
+                item.countryCode === "EU27_2020" &&
+                item.year === year
+
+        );
+
+
+    /*
+        Calculate gap
+    */
+
+    const gap =
+        countryData &&
+        euData &&
+        countryData.adoption != null &&
+        euData.adoption != null
+
+            ? countryData.adoption -
+              euData.adoption
+
+            : null;
+
+
+    /*
+        Calculate rank
+    */
+
+    const countriesForYear =
+        eurostatData
+            .filter(
+
+                item =>
+                    item.year === year &&
+                    item.countryCode !== "EU27_2020" &&
+                    item.adoption != null
+
+            )
+            .sort(
+
+                (a, b) =>
+                    b.adoption - a.adoption
+
+            );
+
+
+    const rankIndex =
+        countriesForYear.findIndex(
+
+            item =>
+                item.countryCode === countryCode
+
+        );
+
+
+    const rank =
+        rankIndex >= 0
+            ? rankIndex + 1
+            : null;
+
+
+    /*
+        Show loading state
+    */
+
+    answer.innerText =
+        "Thinking...";
+
+
+    askButton.disabled = true;
+
+
+    askButton.innerText =
+        "Thinking...";
+
+
+    try {
+
+        /*
+            Send question + dashboard data
+            to Cloudflare Worker.
+        */
+
+        const response =
+            await fetch(
+
+                AI_WORKER_URL,
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        question: question,
+
+                        dashboard: {
+
+                            country:
+                                countryData?.country
+                                ?? countryCode,
+
+                            year:
+                                year,
+
+                            aiAdoption:
+                                countryData?.adoption
+                                ?? null,
+
+                            eu27Adoption:
+                                euData?.adoption
+                                ?? null,
+
+                            gapVsEU27:
+                                gap,
+
+                            euRank:
+                                rank
+
+                        }
+
+                    })
+
+                }
+
+            );
+
+
+        /*
+            Parse Worker response
+        */
+
+        const data =
+            await response.json();
+
+
+        /*
+            Handle errors
+        */
+
+        if (!response.ok) {
+
+            console.error(
+                "Worker error:",
+                data
+            );
+
+
+            answer.innerText =
+                data.error ||
+                "The AI service could not process the request.";
+
+            return;
+
+        }
+
+
+        /*
+            Display AI answer
+        */
+
+        answer.innerText =
+            data.answer ||
+            "No answer was returned.";
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "AI connection error:",
+            error
+        );
+
+
+        answer.innerText =
+            "Unable to connect to the AI service. Please try again.";
+
+    }
+
+
+    finally {
+
+        askButton.disabled = false;
+
+        askButton.innerText =
+            "Ask AI";
+
+    }
+
+}
+
+
+/*
     COUNTRY SELECTOR
 */
 
@@ -1018,42 +1295,6 @@ document
         updateDashboard
 
     );
-
-
-/*
-    AI BUTTON
-
-    The actual AI connection will be
-    added later.
-*/
-
-function askAI() {
-
-    const question =
-        document
-            .getElementById("question")
-            .value;
-
-
-    const answer =
-        document
-            .getElementById("answer");
-
-
-    if (!question.trim()) {
-
-        answer.innerText =
-            "Please enter a question.";
-
-        return;
-
-    }
-
-
-    answer.innerText =
-        "AI assistant coming soon...";
-
-}
 
 
 /*
