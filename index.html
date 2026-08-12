@@ -26,11 +26,13 @@
 
         h1 {
             margin-bottom: 8px;
+            font-size: 32px;
         }
 
         .subtitle {
             color: #6b7280;
             margin-bottom: 30px;
+            font-size: 16px;
         }
 
         .filters {
@@ -40,10 +42,13 @@
         }
 
         select {
-            padding: 10px 14px;
+            padding: 11px 14px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             background: white;
+            font-size: 14px;
+            min-width: 180px;
+            cursor: pointer;
         }
 
         .kpis {
@@ -57,7 +62,7 @@
             background: white;
             padding: 22px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .card-title {
@@ -76,18 +81,32 @@
             padding: 25px;
             border-radius: 12px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .insight h2 {
             margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .insight p {
+            line-height: 1.7;
+            margin-bottom: 0;
         }
 
         .question-box {
             background: white;
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .question-box h2 {
+            margin-top: 0;
+        }
+
+        .question-box p {
+            color: #6b7280;
         }
 
         textarea {
@@ -122,15 +141,42 @@
             background: #f3f4f6;
             border-radius: 8px;
             min-height: 60px;
+            line-height: 1.6;
+        }
+
+        .loading {
+            color: #6b7280;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+
+        .footer {
+            margin-top: 35px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 13px;
         }
 
         @media (max-width: 800px) {
+
             .kpis {
                 grid-template-columns: repeat(2, 1fr);
             }
+
         }
 
         @media (max-width: 500px) {
+
+            .container {
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
             .kpis {
                 grid-template-columns: 1fr;
             }
@@ -138,6 +184,11 @@
             .filters {
                 flex-direction: column;
             }
+
+            select {
+                width: 100%;
+            }
+
         }
     </style>
 </head>
@@ -152,100 +203,623 @@
         AI adoption across European countries
     </div>
 
+
+    <!-- FILTERS -->
+
     <div class="filters">
 
         <select id="country">
-            <option>Romania</option>
-            <option>Germany</option>
-            <option>France</option>
-            <option>Italy</option>
-            <option>Spain</option>
+
+            <option value="RO">Romania</option>
+            <option value="BE">Belgium</option>
+            <option value="BG">Bulgaria</option>
+            <option value="CZ">Czechia</option>
+            <option value="DK">Denmark</option>
+            <option value="DE">Germany</option>
+            <option value="EE">Estonia</option>
+            <option value="IE">Ireland</option>
+            <option value="EL">Greece</option>
+            <option value="ES">Spain</option>
+            <option value="FR">France</option>
+            <option value="HR">Croatia</option>
+            <option value="IT">Italy</option>
+            <option value="CY">Cyprus</option>
+            <option value="LV">Latvia</option>
+            <option value="LT">Lithuania</option>
+            <option value="LU">Luxembourg</option>
+            <option value="HU">Hungary</option>
+            <option value="MT">Malta</option>
+            <option value="NL">Netherlands</option>
+            <option value="AT">Austria</option>
+            <option value="PL">Poland</option>
+            <option value="PT">Portugal</option>
+            <option value="SI">Slovenia</option>
+            <option value="SK">Slovakia</option>
+            <option value="FI">Finland</option>
+            <option value="SE">Sweden</option>
+
         </select>
 
+
         <select id="year">
-            <option>2025</option>
-            <option>2024</option>
-            <option>2023</option>
-            <option>2021</option>
+
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2021">2021</option>
+
         </select>
 
     </div>
 
+
+    <!-- KPI CARDS -->
 
     <div class="kpis">
 
         <div class="card">
-            <div class="card-title">AI Adoption</div>
-            <div class="card-value">8.6%</div>
+
+            <div class="card-title">
+                AI Adoption
+            </div>
+
+            <div
+                class="card-value"
+                id="aiAdoption">
+                —
+            </div>
+
         </div>
 
-        <div class="card">
-            <div class="card-title">EU27 Adoption</div>
-            <div class="card-value">20.0%</div>
-        </div>
 
         <div class="card">
-            <div class="card-title">Gap vs EU27</div>
-            <div class="card-value">-11.4 pp</div>
+
+            <div class="card-title">
+                EU27 Adoption
+            </div>
+
+            <div
+                class="card-value"
+                id="euAdoption">
+                —
+            </div>
+
         </div>
 
+
         <div class="card">
-            <div class="card-title">EU Rank</div>
-            <div class="card-value">18</div>
+
+            <div class="card-title">
+                Gap vs EU27
+            </div>
+
+            <div
+                class="card-value"
+                id="gap">
+                —
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                EU Rank
+            </div>
+
+            <div
+                class="card-value"
+                id="rank">
+                —
+            </div>
+
         </div>
 
     </div>
 
+
+    <!-- EXECUTIVE INSIGHT -->
 
     <div class="insight">
 
         <h2>Executive Insight</h2>
 
-        <p>
-            Romania has an AI adoption rate of 8.6% in 2025.
-            This is 11.4 percentage points below the EU27 average
-            of 20.0%. Adoption increased compared with the previous
-            available year.
+        <p id="executiveInsight">
+            Loading Eurostat data...
         </p>
 
     </div>
 
+
+    <!-- AI SECTION -->
 
     <div class="question-box">
 
         <h2>🤖 Ask the AI</h2>
 
         <p>
-            Ask a question about EU AI adoption.
+            Ask a question about EU AI adoption,
+            country performance, trends or the
+            EU27 comparison.
         </p>
+
 
         <textarea
             id="question"
             placeholder="Example: Why is Romania below the EU average?"
         ></textarea>
 
+
         <button onclick="askAI()">
             Ask AI
         </button>
 
-        <div class="answer" id="answer">
+
+        <div
+            class="answer"
+            id="answer">
+
             Your AI answer will appear here.
+
         </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        Data source: Eurostat — ICT usage in enterprises
 
     </div>
 
 </div>
 
 
+<!-- LOAD EUROSTAT DATA -->
+
+<script src="data.js"></script>
+
+
 <script>
+
+let eurostatData = [];
+
+
+/*
+    INITIALIZE DASHBOARD
+*/
+
+async function initializeDashboard() {
+
+    try {
+
+        document
+            .getElementById("executiveInsight")
+            .innerText =
+            "Loading Eurostat data...";
+
+
+        eurostatData =
+            await loadEurostatData();
+
+
+        updateDashboard();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Eurostat loading error:",
+            error
+        );
+
+
+        document
+            .getElementById("aiAdoption")
+            .innerText = "Error";
+
+
+        document
+            .getElementById("euAdoption")
+            .innerText = "Error";
+
+
+        document
+            .getElementById("gap")
+            .innerText = "Error";
+
+
+        document
+            .getElementById("rank")
+            .innerText = "Error";
+
+
+        document
+            .getElementById("executiveInsight")
+            .innerText =
+            "Unable to load Eurostat data. Please check the browser console for details.";
+
+    }
+
+}
+
+
+/*
+    UPDATE DASHBOARD
+*/
+
+function updateDashboard() {
+
+    const country =
+        document
+            .getElementById("country")
+            .value;
+
+
+    const year =
+        Number(
+            document
+                .getElementById("year")
+                .value
+        );
+
+
+    /*
+        Find selected country/year
+    */
+
+    const countryData =
+        eurostatData.find(
+
+            item =>
+                item.countryCode === country &&
+                item.year === year
+
+        );
+
+
+    /*
+        Find EU27/year
+    */
+
+    const euData =
+        eurostatData.find(
+
+            item =>
+                item.countryCode === "EU27_2020" &&
+                item.year === year
+
+        );
+
+
+    /*
+        Check that country data exists
+    */
+
+    if (
+        !countryData ||
+        countryData.adoption == null
+    ) {
+
+        document
+            .getElementById("aiAdoption")
+            .innerText = "N/A";
+
+
+        document
+            .getElementById("euAdoption")
+            .innerText =
+            euData?.adoption != null
+                ? formatPercentage(euData.adoption)
+                : "N/A";
+
+
+        document
+            .getElementById("gap")
+            .innerText = "N/A";
+
+
+        document
+            .getElementById("rank")
+            .innerText = "N/A";
+
+
+        document
+            .getElementById("executiveInsight")
+            .innerText =
+            "No data is available for the selected country and year.";
+
+        return;
+    }
+
+
+    /*
+        Actual country adoption
+    */
+
+    const adoption =
+        countryData.adoption;
+
+
+    /*
+        Actual EU27 adoption
+    */
+
+    const euAdoption =
+        euData?.adoption ?? null;
+
+
+    /*
+        Gap versus EU27
+    */
+
+    const gap =
+        euAdoption != null
+            ? adoption - euAdoption
+            : null;
+
+
+    /*
+        Rank countries for selected year
+    */
+
+    const countriesForYear =
+        eurostatData
+            .filter(
+
+                item =>
+                    item.year === year &&
+                    item.countryCode !== "EU27_2020" &&
+                    item.adoption != null
+
+            )
+            .sort(
+
+                (a, b) =>
+                    b.adoption - a.adoption
+
+            );
+
+
+    const rankIndex =
+        countriesForYear.findIndex(
+
+            item =>
+                item.countryCode === country
+
+        );
+
+
+    const rank =
+        rankIndex >= 0
+            ? rankIndex + 1
+            : null;
+
+
+    /*
+        Update KPI cards
+    */
+
+    document
+        .getElementById("aiAdoption")
+        .innerText =
+        formatPercentage(adoption);
+
+
+    document
+        .getElementById("euAdoption")
+        .innerText =
+        euAdoption != null
+            ? formatPercentage(euAdoption)
+            : "N/A";
+
+
+    document
+        .getElementById("gap")
+        .innerText =
+        gap != null
+            ? formatPercentagePoints(gap)
+            : "N/A";
+
+
+    document
+        .getElementById("rank")
+        .innerText =
+        rank != null
+            ? rank
+            : "N/A";
+
+
+    /*
+        Update executive insight
+    */
+
+    updateExecutiveInsight(
+
+        countryData,
+        euAdoption,
+        gap,
+        rank
+
+    );
+
+}
+
+
+/*
+    FORMAT PERCENTAGE
+*/
+
+function formatPercentage(value) {
+
+    return value.toFixed(1) + "%";
+
+}
+
+
+/*
+    FORMAT PERCENTAGE-POINT DIFFERENCE
+*/
+
+function formatPercentagePoints(value) {
+
+    const sign =
+        value > 0
+            ? "+"
+            : "";
+
+    return (
+        sign +
+        value.toFixed(1) +
+        " pp"
+    );
+
+}
+
+
+/*
+    EXECUTIVE INSIGHT
+*/
+
+function updateExecutiveInsight(
+
+    countryData,
+    euAdoption,
+    gap,
+    rank
+
+) {
+
+    const countryName =
+        countryData.country;
+
+
+    const year =
+        countryData.year;
+
+
+    let text =
+
+        `${countryName} has an AI adoption rate of ` +
+
+        `${formatPercentage(countryData.adoption)} ` +
+
+        `in ${year}. `;
+
+
+    /*
+        EU comparison
+    */
+
+    if (
+        euAdoption != null &&
+        gap != null
+    ) {
+
+        let position;
+
+
+        if (gap > 0) {
+
+            position = "above";
+
+        }
+
+        else if (gap < 0) {
+
+            position = "below";
+
+        }
+
+        else {
+
+            position = "equal to";
+
+        }
+
+
+        text +=
+
+            `This is ` +
+
+            `${formatPercentagePoints(Math.abs(gap))} ` +
+
+            `${position} the EU27 average of ` +
+
+            `${formatPercentage(euAdoption)}. `;
+
+    }
+
+
+    /*
+        Rank
+    */
+
+    if (rank != null) {
+
+        text +=
+
+            `The country is ranked ` +
+
+            `${rank} among the EU countries.`;
+
+    }
+
+
+    document
+        .getElementById("executiveInsight")
+        .innerText = text;
+
+}
+
+
+/*
+    COUNTRY SELECTOR
+*/
+
+document
+    .getElementById("country")
+    .addEventListener(
+
+        "change",
+        updateDashboard
+
+    );
+
+
+/*
+    YEAR SELECTOR
+*/
+
+document
+    .getElementById("year")
+    .addEventListener(
+
+        "change",
+        updateDashboard
+
+    );
+
+
+/*
+    AI BUTTON
+    (AI connection will be added later)
+*/
 
 function askAI() {
 
     const question =
-        document.getElementById("question").value;
+        document
+            .getElementById("question")
+            .value;
+
 
     const answer =
-        document.getElementById("answer");
+        document
+            .getElementById("answer");
+
 
     if (!question.trim()) {
 
@@ -253,12 +827,21 @@ function askAI() {
             "Please enter a question.";
 
         return;
+
     }
+
 
     answer.innerText =
         "AI assistant coming soon...";
 
 }
+
+
+/*
+    START
+*/
+
+initializeDashboard();
 
 </script>
 
