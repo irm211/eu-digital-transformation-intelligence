@@ -1,1 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>EU Digital Transformation Intelligence</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        select {
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .insight {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .insight h2 {
+            margin-top: 0;
+        }
+
+        .question-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 12px;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .answer {
+            margin-top: 20px;
+            padding: 18px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            min-height: 60px;
+        }
+
+        @media (max-width: 800px) {
+            .kpis {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .kpis {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>EU Digital Transformation Intelligence</h1>
+
+    <div class="subtitle">
+        AI adoption across European countries
+    </div>
+
+    <div class="filters">
+
+        <select id="country">
+            <option>Romania</option>
+            <option>Germany</option>
+            <option>France</option>
+            <option>Italy</option>
+            <option>Spain</option>
+        </select>
+
+        <select id="year">
+            <option>2025</option>
+            <option>2024</option>
+            <option>2023</option>
+            <option>2021</option>
+        </select>
+
+    </div>
+
+
+    <div class="kpis">
+
+        <div class="card">
+            <div class="card-title">AI Adoption</div>
+            <div class="card-value">8.6%</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">EU27 Adoption</div>
+            <div class="card-value">20.0%</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Gap vs EU27</div>
+            <div class="card-value">-11.4 pp</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">EU Rank</div>
+            <div class="card-value">18</div>
+        </div>
+
+    </div>
+
+
+    <div class="insight">
+
+        <h2>Executive Insight</h2>
+
+        <p>
+            Romania has an AI adoption rate of 8.6% in 2025.
+            This is 11.4 percentage points below the EU27 average
+            of 20.0%. Adoption increased compared with the previous
+            available year.
+        </p>
+
+    </div>
+
+
+    <div class="question-box">
+
+        <h2>🤖 Ask the AI</h2>
+
+        <p>
+            Ask a question about EU AI adoption.
+        </p>
+
+        <textarea
+            id="question"
+            placeholder="Example: Why is Romania below the EU average?"
+        ></textarea>
+
+        <button onclick="askAI()">
+            Ask AI
+        </button>
+
+        <div class="answer" id="answer">
+            Your AI answer will appear here.
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function askAI() {
+
+    const question =
+        document.getElementById("question").value;
+
+    const answer =
+        document.getElementById("answer");
+
+    if (!question.trim()) {
+
+        answer.innerText =
+            "Please enter a question.";
+
+        return;
+    }
+
+    answer.innerText =
+        "AI assistant coming soon...";
+
+}
+
+</script>
+
+</body>
+</html>
